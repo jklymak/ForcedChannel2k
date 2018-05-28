@@ -63,18 +63,18 @@
  &PARM03
  startTime=0,
 # nTimeSteps=480,
-# 30 days (about 1.1 h at dt = 100 s)
- endTime=2592200,
+# 1 day
+ endTime=259200,
 # endTime=10800,
- deltaT=100.,
+ deltaT=50.,
  abEps=0.1,
 # 0.5 years
  pChkptFreq=0.0,
- chkptFreq=2592000.0,
+ chkptFreq=259200.0,
  dumpFreq=0,
  dumpInitAndLast=.FALSE.,
 # 10 times once a month   Should take 4 minutes for each monitor step.
- monitorFreq=262800.,
+ monitorFreq=43200.,
  monitorSelect=2,
  rwSuffixType=2,
 # 72*40 hours: to account for our cell size

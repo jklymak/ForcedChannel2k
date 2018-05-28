@@ -70,9 +70,12 @@ logging.basicConfig(level=logging.DEBUG)
 
 _log = logging.getLogger(__name__)
 
-runtype = 'spreadrough'  # 'full','filt','low'
-runname='Channel5k1000_%s_01' % runtype
-comments='5k -re-spinup w or w/o all rough topo at full amplitude but k0 and l0 lower after 5 y.'
+runtype = 'vrough'  # 'full','filt','low'
+runname='Channel2k1000_%s_01' % runtype
+comments='2k all-rough from spun-up 5km runs.'
+
+fname = 'Channel5k_Channel5k1000_vrough_01_Spinup.nc'
+fname2d = 'Channel5k_Channel5k1000_vrough_01_Spinup2d.nc'
 
 # to change U we need to edit external_forcing recompile
 
@@ -86,9 +89,9 @@ H0 = 3000
 
 # model size
 
-nx = 40*8
-ny = 26*8
-nz = 84
+nx = 50*16
+ny = 26*20
+nz = 168
 dx0 = 1600e3/nx
 dy0 = 1040e3/ny
 
@@ -149,13 +152,15 @@ mkdir(outdir+'/../build/')
 # copy any data that is in the local indata
 shutil.copytree('../indata/', outdir+'/../indata/')
 
+shutil.copy('../build/mitgcmuv', outdir+'/../build/mitgcmuv')
+#shutil.copy('../build/mitgcmuvU%02d'%u0, outdir+'/../build/mitgcmuv%02d'%u0)
+shutil.copy('../build/Makefile', outdir+'/../build/Makefile')
+shutil.copy('dataSpunup', outdir + '/dataSpunup')
+shutil.copy('dataSpinup02', outdir + '/dataSpinup02')
+shutil.copy('dataSpinup01', outdir + '/dataSpinup01')
+shutil.copy('eedata', outdir)
+shutil.copy('data.kl10', outdir)
 try:
-    shutil.copy('../build/mitgcmuv', outdir+'/../build/mitgcmuv')
-    #shutil.copy('../build/mitgcmuvU%02d'%u0, outdir+'/../build/mitgcmuv%02d'%u0)
-    shutil.copy('../build/Makefile', outdir+'/../build/Makefile')
-    shutil.copy('dataSpunup', outdir + '/dataSpunup')
-    shutil.copy('eedata', outdir)
-    shutil.copy('data.kl10', outdir)
     try:
       shutil.copy('data.kpp', outdir)
     except:
@@ -243,7 +248,7 @@ d[0, :] = 0
 d0 = d
 
 hlow = np.zeros((ny, nx))
-with xr.open_dataset('../indata/topo1kSpread.nc') as topods:
+with xr.open_dataset('../indata/topo1k.nc') as topods:
     # the data set is 1-km, and we want on this grid so bin...
     X, Y = np.meshgrid(topods.x.data, topods.y.data)
     xx = np.hstack((x, x[-1]+dx[-1]))
@@ -264,7 +269,7 @@ fig.savefig(outdir + '/figs/topolow.png')
 sig = 300e3
 xenvelope = np.zeros(nx) + 0.07 + 0.93* np.exp(-((x-x.mean())/sig)**2)
 xenvelope[np.abs(x-x.mean())<200e3] = 1.
-xenvelope = xenvelope * 0 + 1.
+xenvelope = xenvelope * 0 + 1
 
 # hband = np.real(hband - np.mean(hband)+np.mean(h))
 hlow = np.real(hlow - np.mean(hlow))
@@ -338,8 +343,7 @@ ax.set_xlabel(r'$\tau [N\.m^{-2}]$')
 ax.set_ylabel('y [km]')
 fig.savefig(outdir + '/figs/windSurf.png')
 
-fname = 'Channel5k_5y_Spinup.nc'
-fname2d = 'Channel5k_5y_Spinup2d.nc'
+
 _log.info('Reading initial conditions from from {} and {}', fname, fname2d)
 
 

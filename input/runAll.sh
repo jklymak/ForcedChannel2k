@@ -4,6 +4,6 @@
 todo=$1
 
 MainRun=$(qsub -N ${todo} runModel01.sh )
-qsub -W depend=afterany:$MainRun -N ${todo} runModel02.sh
+qsub -W depend=afterok:$MainRun -N ${todo} runModel02.sh
 
 # qsub -W depend=afterany:$MainRun -v  PRE="${todo}",U0="${U0}",N0="${N0}",f0="${f0}"  runGetEnergy.sh

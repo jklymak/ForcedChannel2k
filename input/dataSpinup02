@@ -62,14 +62,14 @@
 
 # Time stepping parameters
  &PARM03
- startTime=2592000,
+ startTime=259200,
  pickupSuff='ckptA',
  pickupStrictlyMatch=.FALSE.,
 # nTimeSteps=480,
 # 10 years (about 17 h at dt = 800 s)
- endTime=315360200,
+ endTime=31536200,
 # endTime=10800,
- deltaT=600.,
+ deltaT=200.,
  abEps=0.1,
 # 0.5 years
  pChkptFreq=0.0,

@@ -1,7 +1,7 @@
 #!/bin/sh -l
 #PBS -m be
 #PBS -M jklymak@gmail.com
-#PBS -l select=1:ncpus=32:mpiprocs=32
+#PBS -l select=10:ncpus=32:mpiprocs=32
 #PBS -l walltime=00:20:00
 #PBS -q debug
 #PBS -A ONRDC35552400
@@ -32,8 +32,9 @@ outdir=$results$top
 #rm -rf ../archive/$top/indata/*
 
 cd $outdir/input
+rm STD*
 pwd
 
 ls -al ../build/mitgcmuv
 printf "Starting: $outdir\n"
-aprun -n 32 ../build/mitgcmuv > mit.out
+aprun -n 320 ../build/mitgcmuv > mit.out
